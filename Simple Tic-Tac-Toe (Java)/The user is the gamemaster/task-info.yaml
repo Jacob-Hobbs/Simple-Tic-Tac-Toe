@@ -257,6 +257,81 @@ files:
           }
       }
     learner_created: false
+  - name: src/tictactoe/TicTacToeBoard.java
+    visible: true
+    text: |
+      package tictactoe;
+      
+      public class TicTacToeBoard {
+          private String[][] ticTacToeArray;
+      
+          public TicTacToeBoard() {
+              this.ticTacToeArray = new String[3][5];
+          }
+      
+          public String[][] getTicTacToeArray() {
+              return this.ticTacToeArray;
+          }
+      
+          public void setTicTacToeArray() {
+              for (int i = 0; i < 3; i++) {
+                  for (int j = 0; j < 5; j++) {
+                      if (i == 0 || i == 2) {
+                          if (j % 2 == 0) {
+                              this.ticTacToeArray[i][j] = "X";
+                          } else {
+                              this.ticTacToeArray[i][j] = " ";
+                          }
+                      } else {
+                          if (j % 2 == 0) {
+                              this.ticTacToeArray[i][j] = "O";
+                          } else {
+                              this.ticTacToeArray[i][j] = " ";
+                          }
+                      }
+                  }
+              }
+          }
+      
+          public String printTicTacToeBoard() {
+              StringBuilder sb = new StringBuilder();
+              for (int i = 0; i < 3; i++) {
+                  for (int j = 0; j < 5; j++) {
+                      sb.append(this.ticTacToeArray[i][j]);
+                  }
+                  sb.append("\n");
+              }
+              return String.valueOf(sb);
+          }
+      
+      
+      }
+    learner_created: true
+  - name: src/tictactoe/GameInterface.java
+    visible: true
+    text: |
+      package tictactoe;
+      
+      import java.util.Arrays;
+      
+      public class GameInterface {
+          private final TicTacToeBoard ticTacToeBoard;
+      
+          // Default constructor for GameInterface class
+          public GameInterface() {
+              this.ticTacToeBoard = new TicTacToeBoard();
+          }
+      
+          public void start() {
+              this.ticTacToeBoard.setTicTacToeArray();
+              System.out.println(this.ticTacToeBoard.printTicTacToeBoard());
+          }
+      
+      }
+    learner_created: true
 feedback_link: https://hyperskill.org/projects/48/stages/256/implement#comment
-status: Unchecked
-record: -1
+status: Solved
+feedback:
+  message: Congratulations!
+  time: "Tue, 20 Feb 2024 20:36:44 UTC"
+record: 2

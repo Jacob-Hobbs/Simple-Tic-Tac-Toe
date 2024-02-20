@@ -11,21 +11,16 @@ public class TicTacToeBoard {
         return this.ticTacToeArray;
     }
 
-    public void setTicTacToeArray() {
+    // TODO: Implement filling array[][] with user input
+    public void setTicTacToeArray(String input) {
+        int currentChar = 0;
         for (int i = 0; i < 3; i++) {
             for (int j = 0; j < 5; j++) {
-                if (i == 0 || i == 2) {
-                    if (j % 2 == 0) {
-                        this.ticTacToeArray[i][j] = "X";
-                    } else {
-                        this.ticTacToeArray[i][j] = " ";
-                    }
+                if (j % 2 == 0) {
+                    this.ticTacToeArray[i][j] = String.valueOf(input.charAt(currentChar));
+                    currentChar++;
                 } else {
-                    if (j % 2 == 0) {
-                        this.ticTacToeArray[i][j] = "O";
-                    } else {
-                        this.ticTacToeArray[i][j] = " ";
-                    }
+                    this.ticTacToeArray[i][j] = " ";
                 }
             }
         }
@@ -33,12 +28,16 @@ public class TicTacToeBoard {
 
     public String printTicTacToeBoard() {
         StringBuilder sb = new StringBuilder();
+        sb.append("---------\n");
         for (int i = 0; i < 3; i++) {
+            sb.append("| ");
             for (int j = 0; j < 5; j++) {
                 sb.append(this.ticTacToeArray[i][j]);
             }
+            sb.append(" |");
             sb.append("\n");
         }
+        sb.append("---------");
         return String.valueOf(sb);
     }
 
