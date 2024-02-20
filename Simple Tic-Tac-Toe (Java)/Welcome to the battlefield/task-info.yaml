@@ -78,6 +78,12 @@ files:
   - name: src/tictactoe/GameInterface.java
     visible: true
     learner_created: true
+  - name: src/tictactoe/TicTacToeBoard.java
+    visible: true
+    learner_created: true
 feedback_link: https://hyperskill.org/projects/48/stages/255/implement#comment
-status: Unchecked
+status: Solved
+feedback:
+  message: Congratulations!
+  time: "Tue, 20 Feb 2024 20:24:18 UTC"
 record: -1
