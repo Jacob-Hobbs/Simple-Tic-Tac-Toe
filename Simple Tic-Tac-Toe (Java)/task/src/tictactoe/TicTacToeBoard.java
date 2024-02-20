@@ -1,18 +1,26 @@
 package tictactoe;
 
+import java.util.ArrayList;
+
 public class TicTacToeBoard {
     private String[][] ticTacToeArray;
     private String winner;
 
+    private ArrayList<String> winnerList;
+
+    // TicTacToeBoard default constructor
     public TicTacToeBoard() {
         this.ticTacToeArray = new String[3][5];
         this.winner = "none";
+        this.winnerList = new ArrayList<>();
     }
 
+    // Method to return TicTacToe board as array[][]
     public String[][] getTicTacToeArray() {
         return this.ticTacToeArray;
     }
 
+    // Method to set the values of the TicTacToe board according to user input
     public void setTicTacToeArray(String input) {
         int currentChar = 0;
         for (int i = 0; i < 3; i++) {
@@ -27,6 +35,7 @@ public class TicTacToeBoard {
         }
     }
 
+    // Method to output current TicTacToe board to terminal with styling
     public String printTicTacToeBoard() {
         StringBuilder sb = new StringBuilder();
         sb.append("---------\n");
@@ -42,12 +51,15 @@ public class TicTacToeBoard {
         return String.valueOf(sb);
     }
 
+    // Method to output result of TicTacToe game given user input
     public String getResult(String input) {
         if (impossibleBoard(input)) {
             return "Impossible";
-        } else if ((horizontalWin(input)) || (horizontalWin(input)) || (diagonalWin(input))) {
+        }
+        this.winnerList.clear();
+        if ((horizontalWin(input)) || (verticalWin(input)) || (diagonalWin(input))) {
             return this.winner + " wins";
-        } else if (!(horizontalWin(input) || horizontalWin(input) || diagonalWin(input))
+        } else if (!(horizontalWin(input) || verticalWin(input) || diagonalWin(input))
                 && (this.winner.equals("none")) && ((countSymbol(input, "X") +
                 countSymbol(input, "O")) != 9)) {
             return "Game not finished";
@@ -55,21 +67,91 @@ public class TicTacToeBoard {
         return "Draw";
     }
 
+    // Method to return boolean depending on horizontal win condition
     public boolean horizontalWin(String input) {
-
+        boolean returnBoolean = false;
+        for (int i = 0; i < 2; i++) {
+            String symbol = i == 0 ? "X" : "O";
+            if ((String.valueOf(input.charAt(0)).equals(symbol) &&
+                    String.valueOf(input.charAt(1)).equals(symbol)
+                    && String.valueOf(input.charAt(2)).equals(symbol))) {
+                this.winnerList.add(symbol);
+                returnBoolean = true;
+            }
+            if ((String.valueOf(input.charAt(3)).equals(symbol) &&
+                    String.valueOf(input.charAt(4)).equals(symbol)
+                    && String.valueOf(input.charAt(5)).equals(symbol))) {
+                this.winnerList.add(symbol);
+                returnBoolean = true;
+            }
+            if ((String.valueOf(input.charAt(6)).equals(symbol) &&
+                    String.valueOf(input.charAt(7)).equals(symbol)
+                    && String.valueOf(input.charAt(8)).equals(symbol))) {
+                this.winnerList.add(symbol);
+                returnBoolean = true;
+            }
+        }
+        if (!this.winnerList.isEmpty()) {
+            this.winner = this.winnerList.get(0);
+        }
+        return returnBoolean;
     }
 
+    // Method to return boolean depending on vertical win condition
     public boolean verticalWin(String input) {
-
+        boolean returnBoolean = false;
+        for (int i = 0; i < 2; i++) {
+            String symbol = i == 0 ? "X" : "O";
+            if ((String.valueOf(input.charAt(0)).equals(symbol) &&
+                    String.valueOf(input.charAt(3)).equals(symbol)
+                    && String.valueOf(input.charAt(6)).equals(symbol))) {
+                this.winnerList.add(symbol);
+                returnBoolean = true;
+            }
+            if ((String.valueOf(input.charAt(1)).equals(symbol) &&
+                    String.valueOf(input.charAt(4)).equals(symbol)
+                    && String.valueOf(input.charAt(7)).equals(symbol))) {
+                this.winnerList.add(symbol);
+                returnBoolean = true;
+            }
+            if ((String.valueOf(input.charAt(2)).equals(symbol) &&
+                    String.valueOf(input.charAt(5)).equals(symbol)
+                    && String.valueOf(input.charAt(8)).equals(symbol))) {
+                this.winnerList.add(symbol);
+                returnBoolean = true;
+            }
+        }
+        if (!this.winnerList.isEmpty()) {
+            this.winner = this.winnerList.get(0);
+        }
+        return returnBoolean;
     }
 
+    // Method to return boolean depending on diagonal win condition
     public boolean diagonalWin(String input) {
-
+        boolean returnBoolean = false;
+        for (int i = 0; i < 2; i++) {
+            String symbol = i == 0 ? "X" : "O";
+            if ((String.valueOf(input.charAt(0)).equals(symbol) &&
+                    String.valueOf(input.charAt(4)).equals(symbol)
+                    && String.valueOf(input.charAt(8)).equals(symbol))) {
+                this.winnerList.add(symbol);
+                returnBoolean = true;
+            }
+            if ((String.valueOf(input.charAt(2)).equals(symbol) &&
+                    String.valueOf(input.charAt(4)).equals(symbol)
+                    && String.valueOf(input.charAt(6)).equals(symbol))) {
+                this.winnerList.add(symbol);
+                returnBoolean = true;
+            }
+        }
+        if (!this.winnerList.isEmpty()) {
+            this.winner = this.winnerList.get(0);
+        }
+        return returnBoolean;
     }
 
-    // TODO: Set Impossible conditions:
-    // TODO: 1. When the number of X's is two greater or more than O's (vice versa).
-    // TODO: 2. When there are multiple winners (O-O-O & X-X-X).
+    // Method to determine if user input describes impossible gameplay scenario
     public boolean impossibleBoard(String input) {
         int xCount = countSymbol(input, "X");
         int oCount = countSymbol(input, "O");
@@ -78,9 +160,14 @@ public class TicTacToeBoard {
             return true;
         }
         // Impossible when: there are multiple winners (O-O-O & X-X-X)
-        // TODO: Create logic for condition 2
+        if ((horizontalWin(input) || verticalWin(input) || diagonalWin(input)) &&
+                (this.winnerList.contains("X") && this.winnerList.contains("O"))) {
+            return true;
+        }
+        return false;
     }
 
+    // Method to count how many of each X's and O's have been played
     public int countSymbol(String input, String symbol) {
         int symbolCount = 0;
         for (int i = 0; i < input.length(); i++) {
