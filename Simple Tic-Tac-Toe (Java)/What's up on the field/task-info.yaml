@@ -317,6 +317,52 @@ files:
           }
       }
     learner_created: false
+  - name: src/tictactoe/TicTacToeBoard.java
+    visible: true
+    text: "package tictactoe;\n\npublic class TicTacToeBoard {\n    private String[][]\
+    \ ticTacToeArray;\n\n    public TicTacToeBoard() {\n        this.ticTacToeArray\
+    \ = new String[3][5];\n    }\n\n    public String[][] getTicTacToeArray() {\n\
+    \        return this.ticTacToeArray;\n    }\n    \n    public void setTicTacToeArray(String\
+    \ input) {\n        int currentChar = 0;\n        for (int i = 0; i < 3; i++)\
+    \ {\n            for (int j = 0; j < 5; j++) {\n                if (j % 2 == 0)\
+    \ {\n                    this.ticTacToeArray[i][j] = String.valueOf(input.charAt(currentChar));\n\
+    \                    currentChar++;\n                } else {\n              \
+    \      this.ticTacToeArray[i][j] = \" \";\n                }\n            }\n\
+    \        }\n    }\n\n    public String printTicTacToeBoard() {\n        StringBuilder\
+    \ sb = new StringBuilder();\n        sb.append(\"---------\\n\");\n        for\
+    \ (int i = 0; i < 3; i++) {\n            sb.append(\"| \");\n            for (int\
+    \ j = 0; j < 5; j++) {\n                sb.append(this.ticTacToeArray[i][j]);\n\
+    \            }\n            sb.append(\" |\");\n            sb.append(\"\\n\"\
+    );\n        }\n        sb.append(\"---------\");\n        return String.valueOf(sb);\n\
+    \    }\n}\n"
+    learner_created: true
+  - name: src/tictactoe/GameInterface.java
+    visible: true
+    text: |
+      package tictactoe;
+      
+      import java.util.Arrays;
+      import java.util.Scanner;
+      
+      public class GameInterface {
+          private final TicTacToeBoard ticTacToeBoard;
+          private final Scanner scanner;
+      
+          // Default constructor for GameInterface class
+          public GameInterface() {
+              this.ticTacToeBoard = new TicTacToeBoard();
+              this.scanner = new Scanner(System.in);
+          }
+      
+          public void start() {
+      
+              String input = scanner.nextLine();
+              this.ticTacToeBoard.setTicTacToeArray(input);
+              System.out.println(this.ticTacToeBoard.printTicTacToeBoard());
+          }
+      
+      }
+    learner_created: true
 feedback_link: https://hyperskill.org/projects/48/stages/257/implement#comment
 status: Unchecked
 record: -1
