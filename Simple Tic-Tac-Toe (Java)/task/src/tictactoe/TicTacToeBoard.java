@@ -72,22 +72,13 @@ public class TicTacToeBoard {
         boolean returnBoolean = false;
         for (int i = 0; i < 2; i++) {
             String symbol = i == 0 ? "X" : "O";
-            if ((String.valueOf(input.charAt(0)).equals(symbol) &&
-                    String.valueOf(input.charAt(1)).equals(symbol)
-                    && String.valueOf(input.charAt(2)).equals(symbol))) {
-                this.winnerList.add(symbol);
+            if (winCondition(0, 1, 2, input, symbol)) {
                 returnBoolean = true;
             }
-            if ((String.valueOf(input.charAt(3)).equals(symbol) &&
-                    String.valueOf(input.charAt(4)).equals(symbol)
-                    && String.valueOf(input.charAt(5)).equals(symbol))) {
-                this.winnerList.add(symbol);
+            if (winCondition(3, 4, 5, input, symbol)) {
                 returnBoolean = true;
             }
-            if ((String.valueOf(input.charAt(6)).equals(symbol) &&
-                    String.valueOf(input.charAt(7)).equals(symbol)
-                    && String.valueOf(input.charAt(8)).equals(symbol))) {
-                this.winnerList.add(symbol);
+            if (winCondition(6, 7, 8, input, symbol)) {
                 returnBoolean = true;
             }
         }
@@ -102,22 +93,13 @@ public class TicTacToeBoard {
         boolean returnBoolean = false;
         for (int i = 0; i < 2; i++) {
             String symbol = i == 0 ? "X" : "O";
-            if ((String.valueOf(input.charAt(0)).equals(symbol) &&
-                    String.valueOf(input.charAt(3)).equals(symbol)
-                    && String.valueOf(input.charAt(6)).equals(symbol))) {
-                this.winnerList.add(symbol);
+            if (winCondition(0, 3, 6, input, symbol)) {
                 returnBoolean = true;
             }
-            if ((String.valueOf(input.charAt(1)).equals(symbol) &&
-                    String.valueOf(input.charAt(4)).equals(symbol)
-                    && String.valueOf(input.charAt(7)).equals(symbol))) {
-                this.winnerList.add(symbol);
+            if (winCondition(1, 4, 7, input, symbol)) {
                 returnBoolean = true;
             }
-            if ((String.valueOf(input.charAt(2)).equals(symbol) &&
-                    String.valueOf(input.charAt(5)).equals(symbol)
-                    && String.valueOf(input.charAt(8)).equals(symbol))) {
-                this.winnerList.add(symbol);
+            if (winCondition(2, 5, 8, input, symbol)) {
                 returnBoolean = true;
             }
         }
@@ -132,16 +114,10 @@ public class TicTacToeBoard {
         boolean returnBoolean = false;
         for (int i = 0; i < 2; i++) {
             String symbol = i == 0 ? "X" : "O";
-            if ((String.valueOf(input.charAt(0)).equals(symbol) &&
-                    String.valueOf(input.charAt(4)).equals(symbol)
-                    && String.valueOf(input.charAt(8)).equals(symbol))) {
-                this.winnerList.add(symbol);
+            if (winCondition(0, 4, 8, input, symbol)) {
                 returnBoolean = true;
             }
-            if ((String.valueOf(input.charAt(2)).equals(symbol) &&
-                    String.valueOf(input.charAt(4)).equals(symbol)
-                    && String.valueOf(input.charAt(6)).equals(symbol))) {
-                this.winnerList.add(symbol);
+            if (winCondition(2, 4, 6, input, symbol)) {
                 returnBoolean = true;
             }
         }
@@ -176,5 +152,15 @@ public class TicTacToeBoard {
             }
         }
         return symbolCount;
+    }
+
+    public boolean winCondition(int x, int y, int z, String input, String symbol) {
+        if ((String.valueOf(input.charAt(x)).equals(symbol) &&
+                String.valueOf(input.charAt(y)).equals(symbol)
+                && String.valueOf(input.charAt(z)).equals(symbol))) {
+            this.winnerList.add(symbol);
+            return true;
+        }
+        return false;
     }
 }

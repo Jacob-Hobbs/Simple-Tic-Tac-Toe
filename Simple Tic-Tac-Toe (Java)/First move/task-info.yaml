@@ -298,6 +298,219 @@ files:
           }
       }
     learner_created: false
+  - name: src/tictactoe/TicTacToeBoard.java
+    visible: true
+    text: |
+      package tictactoe;
+      
+      import java.util.ArrayList;
+      
+      public class TicTacToeBoard {
+          private String[][] ticTacToeArray;
+          private String winner;
+      
+          private ArrayList<String> winnerList;
+      
+          // TicTacToeBoard default constructor
+          public TicTacToeBoard() {
+              this.ticTacToeArray = new String[3][5];
+              this.winner = "none";
+              this.winnerList = new ArrayList<>();
+          }
+      
+          // Method to return TicTacToe board as array[][]
+          public String[][] getTicTacToeArray() {
+              return this.ticTacToeArray;
+          }
+      
+          // Method to set the values of the TicTacToe board according to user input
+          public void setTicTacToeArray(String input) {
+              int currentChar = 0;
+              for (int i = 0; i < 3; i++) {
+                  for (int j = 0; j < 5; j++) {
+                      if (j % 2 == 0) {
+                          this.ticTacToeArray[i][j] = String.valueOf(input.charAt(currentChar));
+                          currentChar++;
+                      } else {
+                          this.ticTacToeArray[i][j] = " ";
+                      }
+                  }
+              }
+          }
+      
+          // Method to output current TicTacToe board to terminal with styling
+          public String printTicTacToeBoard() {
+              StringBuilder sb = new StringBuilder();
+              sb.append("---------\n");
+              for (int i = 0; i < 3; i++) {
+                  sb.append("| ");
+                  for (int j = 0; j < 5; j++) {
+                      sb.append(this.ticTacToeArray[i][j]);
+                  }
+                  sb.append(" |");
+                  sb.append("\n");
+              }
+              sb.append("---------");
+              return String.valueOf(sb);
+          }
+      
+          // Method to output result of TicTacToe game given user input
+          public String getResult(String input) {
+              if (impossibleBoard(input)) {
+                  return "Impossible";
+              }
+              this.winnerList.clear();
+              if ((horizontalWin(input)) || (verticalWin(input)) || (diagonalWin(input))) {
+                  return this.winner + " wins";
+              } else if (!(horizontalWin(input) || verticalWin(input) || diagonalWin(input))
+                      && (this.winner.equals("none")) && ((countSymbol(input, "X") +
+                      countSymbol(input, "O")) != 9)) {
+                  return "Game not finished";
+              }
+              return "Draw";
+          }
+      
+          // Method to return boolean depending on horizontal win condition
+          public boolean horizontalWin(String input) {
+              boolean returnBoolean = false;
+              for (int i = 0; i < 2; i++) {
+                  String symbol = i == 0 ? "X" : "O";
+                  if ((String.valueOf(input.charAt(0)).equals(symbol) &&
+                          String.valueOf(input.charAt(1)).equals(symbol)
+                          && String.valueOf(input.charAt(2)).equals(symbol))) {
+                      this.winnerList.add(symbol);
+                      returnBoolean = true;
+                  }
+                  if ((String.valueOf(input.charAt(3)).equals(symbol) &&
+                          String.valueOf(input.charAt(4)).equals(symbol)
+                          && String.valueOf(input.charAt(5)).equals(symbol))) {
+                      this.winnerList.add(symbol);
+                      returnBoolean = true;
+                  }
+                  if ((String.valueOf(input.charAt(6)).equals(symbol) &&
+                          String.valueOf(input.charAt(7)).equals(symbol)
+                          && String.valueOf(input.charAt(8)).equals(symbol))) {
+                      this.winnerList.add(symbol);
+                      returnBoolean = true;
+                  }
+              }
+              if (!this.winnerList.isEmpty()) {
+                  this.winner = this.winnerList.get(0);
+              }
+              return returnBoolean;
+          }
+      
+          // Method to return boolean depending on vertical win condition
+          public boolean verticalWin(String input) {
+              boolean returnBoolean = false;
+              for (int i = 0; i < 2; i++) {
+                  String symbol = i == 0 ? "X" : "O";
+                  if ((String.valueOf(input.charAt(0)).equals(symbol) &&
+                          String.valueOf(input.charAt(3)).equals(symbol)
+                          && String.valueOf(input.charAt(6)).equals(symbol))) {
+                      this.winnerList.add(symbol);
+                      returnBoolean = true;
+                  }
+                  if ((String.valueOf(input.charAt(1)).equals(symbol) &&
+                          String.valueOf(input.charAt(4)).equals(symbol)
+                          && String.valueOf(input.charAt(7)).equals(symbol))) {
+                      this.winnerList.add(symbol);
+                      returnBoolean = true;
+                  }
+                  if ((String.valueOf(input.charAt(2)).equals(symbol) &&
+                          String.valueOf(input.charAt(5)).equals(symbol)
+                          && String.valueOf(input.charAt(8)).equals(symbol))) {
+                      this.winnerList.add(symbol);
+                      returnBoolean = true;
+                  }
+              }
+              if (!this.winnerList.isEmpty()) {
+                  this.winner = this.winnerList.get(0);
+              }
+              return returnBoolean;
+          }
+      
+          // Method to return boolean depending on diagonal win condition
+          public boolean diagonalWin(String input) {
+              boolean returnBoolean = false;
+              for (int i = 0; i < 2; i++) {
+                  String symbol = i == 0 ? "X" : "O";
+                  if ((String.valueOf(input.charAt(0)).equals(symbol) &&
+                          String.valueOf(input.charAt(4)).equals(symbol)
+                          && String.valueOf(input.charAt(8)).equals(symbol))) {
+                      this.winnerList.add(symbol);
+                      returnBoolean = true;
+                  }
+                  if ((String.valueOf(input.charAt(2)).equals(symbol) &&
+                          String.valueOf(input.charAt(4)).equals(symbol)
+                          && String.valueOf(input.charAt(6)).equals(symbol))) {
+                      this.winnerList.add(symbol);
+                      returnBoolean = true;
+                  }
+              }
+              if (!this.winnerList.isEmpty()) {
+                  this.winner = this.winnerList.get(0);
+              }
+              return returnBoolean;
+          }
+      
+          // Method to determine if user input describes impossible gameplay scenario
+          public boolean impossibleBoard(String input) {
+              int xCount = countSymbol(input, "X");
+              int oCount = countSymbol(input, "O");
+              // Impossible when: the number of X's is two greater or more than O's (vice versa)
+              if ((xCount - oCount >= 2) || (oCount - xCount >= 2)) {
+                  return true;
+              }
+              // Impossible when: there are multiple winners (O-O-O & X-X-X)
+              if ((horizontalWin(input) || verticalWin(input) || diagonalWin(input)) &&
+                      (this.winnerList.contains("X") && this.winnerList.contains("O"))) {
+                  return true;
+              }
+              return false;
+          }
+      
+          // Method to count how many of each X's and O's have been played
+          public int countSymbol(String input, String symbol) {
+              int symbolCount = 0;
+              for (int i = 0; i < input.length(); i++) {
+                  if (String.valueOf(input.charAt(i)).equals(symbol)) {
+                      symbolCount++;
+                  }
+              }
+              return symbolCount;
+          }
+      }
+    learner_created: true
+  - name: src/tictactoe/GameInterface.java
+    visible: true
+    text: |
+      package tictactoe;
+      
+      import java.sql.SQLOutput;
+      import java.util.Arrays;
+      import java.util.Scanner;
+      
+      public class GameInterface {
+          private final TicTacToeBoard ticTacToeBoard;
+          private final Scanner scanner;
+      
+          // Default constructor for GameInterface class
+          public GameInterface() {
+              this.ticTacToeBoard = new TicTacToeBoard();
+              this.scanner = new Scanner(System.in);
+          }
+      
+          // Method to maintain flow of current game logic
+          public void start() {
+      
+              String input = scanner.nextLine();
+              this.ticTacToeBoard.setTicTacToeArray(input);
+              System.out.println(this.ticTacToeBoard.printTicTacToeBoard());
+              System.out.println(this.ticTacToeBoard.getResult(input));
+          }
+      }
+    learner_created: true
 feedback_link: https://hyperskill.org/projects/48/stages/258/implement#comment
 status: Unchecked
 record: -1
